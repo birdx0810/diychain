@@ -1,6 +1,6 @@
 var smoke = require('smokesignal')
 var node = smoke.createNode({
-  port: 2018
+  port: 2019
 , address: smoke.localIp('192.168.43.1/255.255.255.0')
 , seeds: [{port: 2018, address:'192.168.43.43'}]
 })
