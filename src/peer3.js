@@ -36,13 +36,6 @@ node.peers.on('remove', () => {
 })
 
 node.broadcast.on('data', (chunk) => {
-  let data = JSON.parse(chunk.toString());
-  if (data.type === 'transaction') {
-    if (isValid(data))
-    checkIfFromHasEnoughMone
-  } else {
-
-  }
 })
 
 class Block {
