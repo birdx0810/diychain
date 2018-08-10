@@ -2,6 +2,8 @@ let smoke = require('smokesignal');
 let cryptico = require('cryptico');
 let SHA256 = require("crypto-js/sha256");
 const PassPhrase = "ToDaMoon";
+let shareKey = cryptico.generateRSAKey(PassPhrase, 1024);
+let sharePublicKey = cryptico.publicKeyString(shareKey); 
 
 let masterKey = require('./key3');
 let address = cryptico.publicKeyString(masterKey);
@@ -34,7 +36,13 @@ node.peers.on('remove', () => {
 })
 
 node.broadcast.on('data', (chunk) => {
-  console.log(chunk.toString());
+  let data = JSON.parse(chunk.toString());
+  if (data.type === 'transaction') {
+    if (isValid(data))
+    checkIfFromHasEnoughMone
+  } else {
+
+  }
 })
 
 class Block {
@@ -86,5 +94,23 @@ const genesis = new Block(
     }
   ])));
 
+node.on('connect', () => {
+  let trans = JSON.stringify({
+    from: 'llAx2IKfjrk=',
+    to: 'pQSnPTWBdKE=',
+    amount: 50
+  });
+  let ts = Date.now();
+  let ens = cryptico.encrypt(SHA256(trans).toString(), sharePublicKey, masterKey).cipher;
+  let block = new Block(
+    1,
+    genesis.hash,
+    ts,
+    JSON.stringify([trans, ens]),
+    calculateHash(1, genesis.hash, ts, JSON.stringify([trans, ens]))
+  );
+  let msg = JSON.stringify(['block', block]);
+  node.broadcast.write(msg);
+})
 
 node.start()
