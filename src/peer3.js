@@ -3,7 +3,7 @@ let cryptico = require('cryptico');
 let SHA256 = require("crypto-js/sha256");
 const PassPhrase = "ToDaMoon";
 
-let masterKey = require('./key2');
+let masterKey = require('./key3');
 let address = cryptico.publicKeyString(masterKey);
 console.log('Your address is: ', address)
 
@@ -16,7 +16,7 @@ function calculateHash(index, previousHash, timestamp, data) {
 }
 
 let node = smoke.createNode({
-  port: 2019
+  port: 2020
   , address: smoke.localIp('192.168.102.1/255.255.255.0')
   , seeds: [{ port: 2018, address: '192.168.102.143' }]
 });
@@ -85,5 +85,6 @@ const genesis = new Block(
       amount: 1000
     }
   ])));
+
 
 node.start()
